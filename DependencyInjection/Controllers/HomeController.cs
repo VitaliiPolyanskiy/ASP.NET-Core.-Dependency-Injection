@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DependencyInjection.Services;
-//using Microsoft.Extensions.DependencyInjection;
 
 namespace DependencyInjection.Controllers
 {
     public class HomeController : Controller
     {
-        IMessageSender _sender;
-        public HomeController(IMessageSender sender)
+        IEnumerable<IMessageSender> _sendersServices;
+        public HomeController(IEnumerable<IMessageSender> sendersServices)
         {
-            _sender = sender;
+            _sendersServices = sendersServices;
         }
         public IActionResult Index()
         {
@@ -18,16 +17,24 @@ namespace DependencyInjection.Controllers
 
         public IActionResult Index2([FromServices] IMessageSender sender)
         {
-            return Content(sender.Send());
+            Response.ContentType = "text/html; charset=utf-8";
+            return Content($"<h1>{sender.Send()}</h1>");
         }
         public IActionResult Index3()
         {
+            Response.ContentType = "text/html; charset=utf-8";
             var sender = HttpContext.RequestServices.GetService<IMessageSender>();
-            return Content(sender.Send());
+            return Content($"<h1>{sender.Send()}</h1>");
         }
         public IActionResult Index4()
         {
-            return Content(_sender.Send());
+            Response.ContentType = "text/html; charset=utf-8";
+            string responseText = "";
+            foreach (var service in _sendersServices)
+            {
+                responseText += $"<h1>{service.Send()}</h1>";
+            }
+            return Content(responseText);
         }
     }
 }
