@@ -1,21 +1,56 @@
 ﻿@{
-    Layout = null;
+    Layout = null; // Сторінка без спільного Layout
 }
 
 @inject DependencyInjection.Services.IMessageSender MessageSender
 
 <!DOCTYPE html>
-
-<html>
+<html lang="uk">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Впровадження залежностей</title>
+    <style>
+            :root {
+                --bg-color: #f1f5f9;
+                --text-color: #1e293b;
+                --primary-color: #0ea5e9;
+                --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            }
+
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                font-family: var(--font-family);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .message-card {
+                background-color: #ffffff;
+                padding: 2.5rem 4rem;
+                border-radius: 16px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                text-align: center;
+            }
+
+            h1 {
+                color: var(--primary-color);
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 600;
+            }
+    </style>
 </head>
 <body>
-    @{
-        string message = MessageSender.Send();
-        @:
+    <div class="message-card">
+        @{
+            string message = MessageSender.Send();
+        }
         <h1>@message</h1>
-    }
+    </div>
 </body>
 </html>
